@@ -12,7 +12,8 @@ class Debugger(object):
             "apiVersion": "v1",
             "kind": "EphemeralContainers",
             "metadata": {
-                "name": "TARGET_POD_NAME"
+                "name": "TARGET_POD_NAME",
+                "namespace": "NAMESPACE"
             },
             "ephemeralContainers": [{
                 "command": [
@@ -22,18 +23,18 @@ class Debugger(object):
                 "imagePullPolicy": "IfNotPresent",
                 "name": "debugger",
                 "stdin": True,
-                "targetContainerName": "TARGET_POD_NAME",
+                "targetContainerName": "CONTAINER_NAME",
                 "tty": True,
                 "terminationMessagePolicy": "File"
             }]
         }
 
 
-    def createDebugContainer(self, podName, namespace, **kwargs):
-
+    def createDebugContainer(self, podName, namespace, containerName, **kwargs):
+        print("Namespace {} {} ".format(namespace, podName))
         self.ephemeral_pod_json["metadata"]["name"] = podName
-        self.ephemeral_pod_json["ephemeralContainers"]["targetContainerName"] = podName
-
+        self.ephemeral_pod_json["metadata"]["namespace"] = namespace
+        self.ephemeral_pod_json["ephemeralContainers"][0]["targetContainerName"] = containerName
         header = {
             "Content-Type": "application/json",
             "Accept": "application/json, */*",
@@ -41,7 +42,7 @@ class Debugger(object):
         }
         cert = (self.client_cert_path, self.client_cert_key_path)
         resp = requests.put(headers=header,
-                url="{}/api/v1/namespaces/{}/pods/{}/ephemeralcontainers".format(namespace, self.host, podName),
+                url="{}/api/v1/namespaces/{}/pods/{}/ephemeralcontainers".format(self.host, namespace, podName),
                 data=json.dumps(self.ephemeral_pod_json),
                 cert=cert,
                 verify=False)

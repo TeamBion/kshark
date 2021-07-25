@@ -3,8 +3,10 @@
 That is a kubectl plugin which allows you to get pcap file output to watch network activity in pod level.You can easily connect your pods and execute TCPDUMP outputs without install anyof tool inside of the application pods.
 
 ## How you can use this ?
-<img src="./img/usage.png"></img>
+<img src="./img/dumper.gif"></img>
 
+
+You can easily download pcap file and open it in WireShark easily.Pcap file is storing under the `/opt` directory with the `<POD_NAME>.pcap` prefix.
 
 ### How to install ?
 

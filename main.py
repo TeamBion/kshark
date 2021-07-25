@@ -7,9 +7,10 @@ client_cert_key_path=sys.argv[2]
 cluster_address=sys.argv[3]
 pod_name = sys.argv[4]
 namespace = sys.argv[5]
+containerName = sys.argv[6]
 
 debugger = Debugger(host=cluster_address, client_cert_path=client_cert_path, client_cert_key_path=client_cert_key_path)
 
 if __name__ == "__main__":
-    result = debugger.createDebugContainer(podName=pod_name, namespace=namespace)
+    result = debugger.createDebugContainer(podName=pod_name, namespace=namespace, containerName=containerName)
     print(result)
