@@ -13,6 +13,10 @@ kubectl tcpdump <POD_NAME> <PORT_TO_SNIFF> <NAMESPACE> <CONTAINER_NAME>
 
 You can easily download pcap file and open it in WireShark easily.Pcap file is storing under the `/opt` directory with the `<POD_NAME>.pcap` prefix.
 
+
+* Example wireshark output shown at below;
+<img src="./img/wireshark.png"></img>
+
 ### How to install ?
 
 ```
