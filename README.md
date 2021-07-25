@@ -3,6 +3,11 @@
 That is a kubectl plugin which allows you to get pcap file output to watch network activity in pod level.You can easily connect your pods and execute TCPDUMP outputs without install anyof tool inside of the application pods.
 
 ## How you can use this ?
+That's the simple usage shown at below;
+
+```
+kubectl tcpdump <POD_NAME> <PORT_TO_SNIFF> <NAMESPACE> <CONTAINER_NAME>
+```
 <img src="./img/dumper.gif"></img>
 
 
