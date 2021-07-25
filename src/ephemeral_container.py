@@ -29,7 +29,7 @@ class Debugger(object):
         }
 
 
-    def createDebugContainer(self, podName, **kwargs):
+    def createDebugContainer(self, podName, namespace, **kwargs):
 
         self.ephemeral_pod_json["metadata"]["name"] = podName
         self.ephemeral_pod_json["ephemeralContainers"]["targetContainerName"] = podName
@@ -41,7 +41,7 @@ class Debugger(object):
         }
         cert = (self.client_cert_path, self.client_cert_key_path)
         resp = requests.put(headers=header,
-                url="{}/api/v1/namespaces/default/pods/{}/ephemeralcontainers".format(self.host, podName),
+                url="{}/api/v1/namespaces/{}/pods/{}/ephemeralcontainers".format(namespace, self.host, podName),
                 data=json.dumps(self.ephemeral_pod_json),
                 cert=cert,
                 verify=False)
