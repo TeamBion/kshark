@@ -1,6 +1,5 @@
 import sys
 import os
-import logging
 from src.ephemeral_container import Debugger
 
 client_cert_path=sys.argv[1]
@@ -12,4 +11,4 @@ debugger = Debugger(host=cluster_address, client_cert_path=client_cert_path, cli
 
 if __name__ == "__main__":
     result = debugger.createDebugContainer(podName=pod_name)
-    logging.warning(result)
+    print(result)

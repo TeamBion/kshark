@@ -18,10 +18,11 @@ class Debugger(object):
                 "command": [
                     "sh"
                 ],
-                "image": "nginx",
+                "image": "emirozbir/tcpdumper:latest",
                 "imagePullPolicy": "IfNotPresent",
                 "name": "debugger",
                 "stdin": True,
+                "targetContainerName": "app",
                 "tty": True,
                 "terminationMessagePolicy": "File"
             }]
@@ -46,4 +47,3 @@ class Debugger(object):
 
 
         return resp.status_code, resp.content
-
