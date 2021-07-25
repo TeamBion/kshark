@@ -63,4 +63,4 @@ rm -rf $TMPJSON
 
 python3 ./main.py ${TMP_CERT_PATH}/$user.crt ${TMP_CERT_PATH}/$user.key ${cluster_addr} ${POD_NAME} ${NAMESPACE} ${CONTAINER_NAME}
 
-kubectl exec -it ${POD_NAME} -c debugger -- bash -c "tcpdump port ${CONTAINER_PORT} > /opt/${POD_NAME}.pcap" ${NAMESPACE}
+kubectl exec -it ${POD_NAME} -c debugger -- bash -c "tcpdump port ${CONTAINER_PORT} -w /opt/${POD_NAME}.pcap" ${NAMESPACE}
