@@ -22,7 +22,7 @@ class Debugger(object):
                 "imagePullPolicy": "IfNotPresent",
                 "name": "debugger",
                 "stdin": True,
-                "targetContainerName": "app",
+                "targetContainerName": "TARGET_POD_NAME",
                 "tty": True,
                 "terminationMessagePolicy": "File"
             }]
@@ -32,6 +32,7 @@ class Debugger(object):
     def createDebugContainer(self, podName, **kwargs):
 
         self.ephemeral_pod_json["metadata"]["name"] = podName
+        self.ephemeral_pod_json["ephemeralContainers"]["targetContainerName"] = podName
 
         header = {
             "Content-Type": "application/json",
