@@ -19,6 +19,29 @@ You can easily download pcap file and open it in WireShark easily.Pcap file is s
 
 ### How to install ?
 
+#### Caveats
+
+
+* FeatureGates
+
+Before you install please set those FeatureGates into the your `api-server`, `scheduler` `control-manager` and `kubelet` as well.
+```
+--feature-gates="EphemeralContainers=true"
+```
+On kubelet (worker nodes )
+```
+featureGates:
+  EphemeralContainers: true
+```
+
+* Authentication & Authorization
+
+This plugin uses client-certificate based authentiation currently, but in the future we will enable OICD, IAM and token based authentication options in there.
+
+
+
+
+
 ```
 
 #!/bin/bash
