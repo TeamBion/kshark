@@ -42,6 +42,11 @@ This plugin uses client-certificate based authentiation currently, but in the fu
 
 
 * Installation
+
+<b> Notice: </b> 
+Requirements;
+You have to install `jq` and `yq` command into the local environment.This tools uses those commands while parsing them.
+
 ```
 
 #!/bin/bash
