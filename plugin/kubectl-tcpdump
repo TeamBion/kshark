@@ -1,20 +1,45 @@
 #!/bin/bash
 
-export POD_NAME=$1
-export NAMESPACE=${2-default}
-export INTERFACE=${3-"lo"}
+set -e
+export OS_VERSION=$(uname -a)
 
-if [[ -z ${POD_NAME} || -z ${NAMESPACE}   || -z ${INTERFACE} ]];
+while getopts ":p:n:i:" OPTION; do
+  case "$OPTION" in 
+    p) 
+      export POD_NAME=$OPTARG
+      ;;
+    n)
+      export NAMESPACE=$OPTARG
+      ;;
+    i)
+      export INTERFACE=$OPTARG
+      ;;
+    ?)
+      echo "Usage: $(basename $0) [-p] [-n] [-i]"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z ${POD_NAME} || -z ${NAMESPACE} || -z ${INTERFACE} ]];
 then
-    echo "Some variables are missing"
+    echo "WARNING some parameters are missing"
     exit 1
 else
-    echo """Paramaters ;
-        service: ${POD_NAME}
-        branch: ${NAMESPACE}
-        environment: ${INTERFACE}
-    """
+    echo """
+        Parameters
+        pod-name:  ${POD_NAME}
+        namespace: ${NAMESPACE}
+        interface: ${INTERFACE}
+    """;
 fi
 
-kubectl debug -i ${POD_NAME} -n ${NAMESPACE} \
-  --image emirozbir/tcpdumper:latest -- tcpdump -i ${INTERFACE} -w -
+if [[ "$OS_VERSION" == *"Darwin"* ]];
+then
+    export TCP_COMMAND="tcpdump -i ${INTERFACE} -w - "
+else
+    export TCP_COMMAND="tcpdump -U -i ${INTERFACE} -w - "
+fi
+
+kubectl debug -q -i ${POD_NAME} -n ${NAMESPACE} \
+    --image emirozbir/tcpdumper:latest -- ${TCP_COMMAND} | wireshark -k -i -
