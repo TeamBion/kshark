@@ -2,7 +2,7 @@
 
 set -e
 export OS_VERSION=$(uname -a)
-
+export DEBUG_CONTAINER_ID=$(echo $RANDOM)
 while getopts ":p:n:i:" OPTION; do
   case "$OPTION" in 
     p) 
@@ -41,5 +41,5 @@ else
     export TCP_COMMAND="tcpdump -U -i ${INTERFACE} -w - "
 fi
 
-kubectl debug -q -i ${POD_NAME} -n ${NAMESPACE} \
+kubectl --insecure-skip-tls-verify debug -q -i ${POD_NAME} -n ${NAMESPACE} -c kshark-debugger-${DEBUG_CONTAINER_ID} \
     --image emirozbir/tcpdumper:latest -- ${TCP_COMMAND} | wireshark -k -i -

@@ -1,74 +1,33 @@
-# Kubectl Tcpdump
+# kshark
 
-That is a kubectl plugin which allows you to get pcap file output to watch network activity in pod level.You can easily connect your pods and execute TCPDUMP outputs without install anyof tool inside of the application pods.
+A kubectl plugin that allows us to gather network information with tcpdump command without no binary injection on your pods.
 
-## How you can use this ?
-That's the simple usage shown at below;
+This plugin use the debug containers to inject your pods and gather tcpdump data.
+
+# Usage
+
+This the current example usage of kubectl shark command.This command allows us to run different kind a analysis on wireshark.
+
+<img src="img/main.gif"></img>
 
 ```sh
-kubectl tcpdump <POD_NAME> <PORT_TO_SNIFF> <NAMESPACE> <CONTAINER_NAME>
-```
-If you do not set any interface name the tcpdump command will try to sniff `lo` interface as default.
-
-<img src="./img/dumper.gif"></img>
-
-You can easily download pcap file and open it in WireShark easily.Pcap file is storing under the `/opt` directory with the `<POD_NAME>.pcap` prefix.
-
-* Example wireshark output shown at below;
-<img src="./img/wireshark.png"></img>
-
-### How to install ?
-...Coming soon
-
-#### Caveats
-
-* FeatureGates
-
-Before you install please set those FeatureGates into the your `api-server`, `scheduler` `control-manager` and `kubelet` as well.
-```
---feature-gates="EphemeralContainers=true"
-```
-On kubelet (worker nodes )
-```
-featureGates:
-  EphemeralContainers: true
+    kubectl shark -p <POD-NAME> -n kube-system -i eth0
 ```
 
-* Authentication & Authorization
+## Prerequirements
+If you want to run debug containers on your Kubernetes cluster you need to enable FeatureGates on your components shown as below on <b>api-server</b> and <b>controller-manager</b>.
 
-This plugin uses client-certificate based authentiation currently, but in the future we will enable OICD, IAM and token based authentication options in there.
-
-
-* Installation
-
-<b> Notice: </b> 
-
-Requirements;
-
-You have to install `jq` and `yq` command into the local environment.This tools uses those commands while parsing them.
-
+```yaml
+   ... 
+   ...
+   --feature-gates=EphemeralContainers=true
 ```
 
-#!/bin/bash
-git clone git@github.com:WoodProgrammer/k8s-tcpdumper.git 
-sudo mkdir -p /usr/local/bin/k8s-tcpdumper/src
+## Installation
 
-sudo mv k8s-tcpdumper/src/ephemeral_container.py /usr/local/bin/k8s-tcpdumper/src/
-sudo mv k8s-tcpdumper/main.py /usr/local/bin/k8s-tcpdumper/main.py
+kubectl-shark has got very simple installation type like shown as below;
 
-sudo mv k8s-tcpdumper/plugin/kubectl-tcpdump /usr/local/bin/kubectl-tcpdump
-
+```sh
+    make all-deps
+    make install
 ```
-### Wireshark
-
-That plugin fetch the pcap output via tcpdump and routes them to the wireshark.Before you run that please be ensure wireshark installed properly on your terminal `PATH`.
-
-Related links: 
-* <a href="https://www.wireshark.org/download.html">WireShark Installation</a>
-
-
-# TODO
-
-* Dashboards
-* stdin stdout controls
-* Log Messages
