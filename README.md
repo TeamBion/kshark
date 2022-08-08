@@ -2,7 +2,7 @@
 
 
 <p align="center">
-<img style="border-radius:50%" src="img/logo.png"></img>
+<img src="img/logo.png"></img>
 </p>
 
 A kubectl plugin that allows us to gather network information with tcpdump command without no binary injection on your pods.
