@@ -11,9 +11,5 @@ OS=linux
 endif
 endif
 
-all-deps:
-	wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_${OS}_${CHIPSET} -O yq
-	chmod +x yq && mv yq /usr/local/bin/
-
 install:
-	mv ${BASE_PATH}/plugin/kubectl-tcpdump /usr/local/bin/
+	mv ${BASE_PATH}/plugin/kubectl-shark /usr/local/bin/
