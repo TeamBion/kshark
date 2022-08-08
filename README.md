@@ -1,7 +1,9 @@
 # kshark
 
 
-<p style="text-align:center;"><img style="border-radius: 100px;text-align:center;" src="img/logo.png"></img></p>
+<p align="center">
+<img src="img/logo.png"></img>
+</p>
 
 A kubectl plugin that allows us to gather network information with tcpdump command without no binary injection on your pods.
 
