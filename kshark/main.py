@@ -2,7 +2,7 @@ import argparse
 import logging
 import sys
 
-from debug import Debug
+from kshark.debug import Debug
 
 def argParser():
     parser = argparse.ArgumentParser(description="kubectl shark configurations")
@@ -39,7 +39,7 @@ def argParser():
 
     return parser.parse_args()
 
-if __name__ == "__main__":
+def main():
     debugObj = Debug()
     args = argParser()
 
