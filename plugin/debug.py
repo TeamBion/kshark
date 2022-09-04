@@ -12,6 +12,6 @@ class Debug(object):
         mode = params["mode"]
 
         try:
-            subprocess.run(["./kubectl-shark", "-p", pod, "-n", namespace, "-i", interface])
+            subprocess.run(["./kubectl-shark", pod, namespace, interface, mode])
         except Exception as exp:
             logging.error(exp)
