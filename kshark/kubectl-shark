@@ -3,23 +3,10 @@
 set -e
 export OS_VERSION=$(uname -a)
 export DEBUG_CONTAINER_ID=$(echo $RANDOM)
-while getopts ":p:n:i:" OPTION; do
-  case "$OPTION" in 
-    p) 
-      export POD_NAME=$OPTARG
-      ;;
-    n)
-      export NAMESPACE=$OPTARG
-      ;;
-    i)
-      export INTERFACE=$OPTARG
-      ;;
-    ?)
-      echo "Usage: $(basename $0) [-p] [-n] [-i]"
-      exit 1
-      ;;
-  esac
-done
+export POD_NAME=$1
+export NAMESPACE=$2
+export INTERFACE=$3
+export MODE=$4
 
 if [[ -z ${POD_NAME} || -z ${NAMESPACE} || -z ${INTERFACE} ]];
 then
@@ -41,5 +28,5 @@ else
     export TCP_COMMAND="tcpdump -U -i ${INTERFACE} -w - "
 fi
 
-kubectl --insecure-skip-tls-verify debug -q -i ${POD_NAME} -n ${NAMESPACE} -c kshark-debugger-${DEBUG_CONTAINER_ID} \
+kubectl debug -q -i ${POD_NAME} -n ${NAMESPACE} -c kshark-debugger-${DEBUG_CONTAINER_ID} \
     --image emirozbir/tcpdumper:latest -- ${TCP_COMMAND} | wireshark -k -i -
