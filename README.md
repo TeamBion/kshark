@@ -19,7 +19,7 @@ This the current example usage of kubectl shark command.This command allows us t
     kubectl shark -p <POD-NAME> -n kube-system -i eth0
 ```
 
-## Prerequirements
+## Usage
 If you want to run debug containers on your Kubernetes cluster you need to enable FeatureGates on your components shown as below on <b>api-server</b> and <b>controller-manager</b>.
 
 ```yaml
@@ -27,12 +27,13 @@ If you want to run debug containers on your Kubernetes cluster you need to enabl
    ...
    --feature-gates=EphemeralContainers=true
 ```
+### In EKS;
+EKS allows us to use debug with the newer versions on Kubernetes so that ability will be managed kubernetes users.
 
 ## Installation
 
 kubectl-shark has got very simple installation type like shown as below;
 
 ```sh
-    make all-deps
-    make install
+    pip3 install . --upgrade
 ```
